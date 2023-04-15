@@ -1,0 +1,46 @@
+# /etc/ppp/pppoe.conf
+# PPPoE client configuration file
+
+# Set the Ethernet interface to use
+ETH="eth0"
+
+# Set the PPPoE connection name
+NAME="pppoe"
+
+# Set the username and password for the PPPoE connection
+USER="username"
+PASSWORD="password"
+
+# Set the service name (optional)
+SERVICE=""
+
+# Set the MTU size for the PPPoE connection (optional)
+MTU=""
+
+# Set the MRU size for the PPPoE connection (optional)
+MRU=""
+
+# Set the PPP authentication method (optional)
+AUTH=""
+
+# Set the DNS server addresses (optional)
+DNS1=""
+DNS2=""
+
+# Set the idle time before disconnecting (optional)
+IDLETIME=""
+
+# Set the timeout for connection attempts (optional)
+TIMEOUT=""
+
+# Set the maximum number of connection attempts (optional)
+MAXFAIL=""
+
+# Set the debug level (optional)
+DEBUG=""
+
+# Set the log file path (optional)
+LOGFILE=""
+
+# Set the PID file path (optional)
+PIDFILE=""
