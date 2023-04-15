@@ -1,0 +1,51 @@
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Real-time data',
+      data: [],
+      borderColor: 'blue',
+      fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    title: {
+      display: true,
+      text: 'Real-time chart'
+    },
+    scales: {
+      xAxes: [{
+        type: 'time',
+        time: {
+          unit: 'second',
+          displayFormats: {
+            second: 'h:mm:ss a'
+          }
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+
+function addData() {
+  chart.data.datasets[0].data.push({
+    x: new Date(),
+    y: Math.random() * 100
+  });
+
+  if (chart.data.datasets[0].data.length > 10) {
+    chart.data.datasets[0].data.shift();
+  }
+
+  chart.update();
+}
+
+setInterval(addData, 1000);
