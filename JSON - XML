@@ -1,0 +1,88 @@
+#include "rapidjson/document.h"
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/stringbuffer.h"
+#include <iostream>
+
+std::string jsonToXml(const rapidjson::Value& value);
+
+int main()
+{
+    // Example JSON data
+    const char* json = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}";
+
+    // Parse the JSON data
+    rapidjson::Document document;
+    document.Parse(json);
+
+    // Convert the JSON to XML
+    std::string xml = jsonToXml(document);
+
+    // Print the result
+    std::cout << xml << std::endl;
+
+    return 0;
+}
+
+std::string jsonToXml(const rapidjson::Value& value)
+{
+    rapidjson::StringBuffer buffer;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+
+    // Start the XML document
+    writer.StartObject();
+
+    // Convert each member of the JSON object to an XML element
+    for (rapidjson::Value::ConstMemberIterator it = value.MemberBegin(); it != value.MemberEnd(); ++it)
+    {
+        const char* name = it->name.GetString();
+        const rapidjson::Value& val = it->value;
+
+        writer.Key(name);
+
+        if (val.IsObject())
+        {
+            // Recursively convert JSON object to XML element
+            writer.StartObject();
+            writer.String("_type", 5);
+            writer.String("object", 6);
+            jsonToXml(val);
+            writer.EndObject();
+        }
+        else if (val.IsArray())
+        {
+            // Convert JSON array to XML element
+            writer.StartArray();
+            for (rapidjson::Value::ConstValueIterator it2 = val.Begin(); it2 != val.End(); ++it2)
+            {
+                writer.String("", 0);
+                jsonToXml(*it2);
+            }
+            writer.EndArray();
+        }
+        else if (val.IsString())
+        {
+            // Convert JSON string to XML element
+            writer.String(val.GetString(), val.GetStringLength());
+        }
+        else if (val.IsNumber())
+        {
+            // Convert JSON number to XML element
+            writer.Double(val.GetDouble());
+        }
+        else if (val.IsBool())
+        {
+            // Convert JSON boolean to XML element
+            writer.Bool(val.GetBool());
+        }
+        else if (val.IsNull())
+        {
+            // Convert JSON null to XML element
+            writer.Null();
+        }
+    }
+
+    // End the XML document
+    writer.EndObject();
+
+    return buffer.GetString();
+}
