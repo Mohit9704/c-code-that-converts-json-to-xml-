@@ -1,0 +1,3 @@
+|<--> OPC Server  <--> Company OEE / ERP  
+ [CNC Siemens 840dsl] Parameter "R10" ---|---> SQL Adapter 
+                                         |---> MQTT
